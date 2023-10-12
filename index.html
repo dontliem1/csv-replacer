@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заменить текст с помощью .csv</title>
     <meta name="description" content="Замените сразу несколько слов или фраз с помощью excel-таблицы">
+    <style>
+        textarea {
+            box-sizing: border-box;
+            resize: vertical;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Массовый поиск и замена с помощью .csv</h1>
     <form id="replaceForm" onsubmit="this.output.value = this.input.value; return false;">
-        <p><label>Исходный текст<br><textarea name="input" id="input" placeholder="Текст, в котором нужно найти и заменить слова или фразы" style="width: 100%; box-sizing: border-box;" rows="10" required></textarea></label></p>
+        <p><label>Исходный текст<br><textarea name="input" id="input" placeholder="Текст, в котором нужно найти и заменить слова или фразы" rows="10" required></textarea></label></p>
         <p><label>Таблица <input type="file" name="csv" id="csv" accept="text/csv" required></label> <a href="template.csv" download>Скачать образец</a></p>
         <input type="submit" id="submit" value="Найти и заменить">
-        <p><label>Результат<br><textarea name="output" id="output" placeholder="Здесь будет результат" readonly style="width: 100%; box-sizing: border-box;" rows="10"></textarea></label></p>
+        <p><label>Результат<br><textarea name="output" id="output" placeholder="Здесь будет результат" readonly rows="10"></textarea></label></p>
     </form>
     <script type="module">
         import { parse } from 'https://cdn.jsdelivr.net/npm/@vanillaes/csv@3.0.1/+esm';
