@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заменить текст с помощью .csv</title>
+    <meta name="description" content="Замените сразу несколько слов или фраз с помощью excel-таблицы">
+</head>
+<body>
+    <h1>Массовый поиск и замена с помощью .csv</h1>
+    <form id="replaceForm" onsubmit="this.output.value = this.input.value; return false;">
+        <p><label>Исходный текст<br><textarea name="input" id="input" placeholder="Текст, в котором нужно найти и заменить слова или фразы" style="width: 100%; box-sizing: border-box;" rows="10" required></textarea></label></p>
+        <p><label>Таблица <input type="file" name="csv" id="csv" accept="text/csv" required></label> <a href="template.csv" download>Скачать образец</a></p>
+        <input type="submit" id="submit" value="Найти и заменить">
+        <p><label>Результат<br><textarea name="output" id="output" placeholder="Здесь будет результат" readonly style="width: 100%; box-sizing: border-box;" rows="10"></textarea></label></p>
+    </form>
+    <script type="module">
+        import { parse } from 'https://cdn.jsdelivr.net/npm/@vanillaes/csv@3.0.1/+esm';
+
+        const replaceForm = /** @type {HTMLFormElement} */ (document.getElementById('replaceForm'));
+
+        replaceForm.addEventListener('submit', function handleSubmit(e) {
+            e.preventDefault();
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const parsedCSV = /** @type {string[][]} */ (parse(reader.result));
+
+                replaceForm.output.value = parsedCSV.reduce(function replacer(str, row) {
+                    return str.replaceAll(row[0], row[1]);
+                }, replaceForm.input.value);
+            }
+            reader.readAsText(replaceForm.csv.files[0], 'UTF-8');
+        })
+    </script>
+</body>
+</html>
